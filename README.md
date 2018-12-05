@@ -7,13 +7,15 @@ To do that, you will want to take the *contents* of the template.html file and h
 
 This is a multi-step process
 
-1 - Take the CSS and JS Files from Template.html and simply put them into the head of the index.htmls file.
+1 - Take the CSS and JS Files from Template.html and simply put them into the head of the index.html file.
 
-2 - Next start to bring over the HTML from within the Template.html file into App.js file.
+2 - Next, start to bring over the HTML from within the Template.html file into App.js file.
 
 > You can do this step all at ones or element by elment.
 
 3. Once you have all the HTML being redered out of the App.js file then you need to break that HTML file/elemnets into compononents.
+
+> We can show you in class how do that for a simple Component. From there use the wiki and other resources to help you accomplish this task.
 
 4 - Use the Step1.png file located in the public folder as guidance for the compoenents you should create.
 
