@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Step 1 React
+
 ## Make Components
 
 The goal of this Step 1 is to make the web page you run via `npm start` look like the template.html file. 
@@ -18,7 +20,7 @@ This is a multi-step process
 
   - We can show you in class how do that for a simple Component. From there, use the wiki and other resources to help you accomplish this task.
 
-:star: Use the /public/Step1.png file located in the public folder as guidance for the compoenents you should create.
+:star: Use the `/public/Step1.png` file located in the public folder as guidance for the compoenents you should create.
 > This material was covered in the videos you have been pointed to, within this wiki and or simply found through come good Google Searching
 
 
