@@ -1,20 +1,42 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Your First Repo 
+This repo is here to give you a place to store your code and get familiar with Git :smile:
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# Files Included Here
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## **np.sh**
+This file will set up Notepade++ as the default editor that Git will use when it needs you to provide a message.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+Run this file from the bash window like so:
+``` bash
+
+./np.sh
+
+```
+
+
+## **share-branch.sh**
+This will take your current changes and push them to the remote server (ie The Git Repo or The TFS Server where the Git Repo is located). 
+
+We do this so that you can _safely_ save your work on the sever, away from your machine, where you may lose your work by accident or simply to give others access to your code.  
+
+Run this file from the bash window like so:
+``` bash
+
+./share-branch.sh
+
+```
+
+
+## **template.html**
+A familiar template that you can use for your work. You can run this like you have any other files with live server.
+
+Be sure to have your Live Server Settings changed so that when it launches a new page it does so with the ```localhost```
+
+Go File Menu> Preferences > Settings ... and then type in the search box: ```liveServer.settings.host```. The default is 127.0.0.1
+
+``` 
+live-server.settings.host": "localhost"
+```
+
+
