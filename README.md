@@ -1,5 +1,7 @@
 ## Make React Components
 
+> You must execute a `yarn install` command before you can execute a `yarn start` command
+
 The goal of this Step 1 is to make the web page you run via `yarn start` look like the template.html file.
 To do that, you will want to take the _contents_ of the template.html file and have it rendered by React.
 
