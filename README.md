@@ -1,6 +1,18 @@
 # Your First Repo 
 This repo is here to give you a place to store your code and get familiar with Git :smile:
 
+# Summary of Commands 
+You should run these commands before you start coding. You can run these out of the git bash window.
+
+```
+
+
+npm install -g npm@latest
+
+npm install -g typescript
+
+```
+
 
 # Files Included Here
 
