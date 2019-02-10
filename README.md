@@ -30,13 +30,15 @@ This is a multi-step process
 
 ## After Compoments are Built
 
-- Implement Routing to render the compoenets
+- Implement Routing to render the components
+  - The package `react-router-dom` is already included in the packages.json file so you do not have to install
+  - [Wiki Page](http://code.sabio.la:8080/tfs/SabioCollection/Content-JavaScript/_wiki/wikis/Content-JavaScript.wiki?pagePath=%2FJavascript%20Home%2FReact%20Home%2FReact%20Router&wikiVersion=GBwikiMaster)
 
 ## Ajax Call
 
 - Make a hard coded ajax call to the login endpoint (user example below)
 
-  - Search this wiki "Axios Template"
+  - Search this wiki ["Axios Template"](http://code.sabio.la:8080/tfs/SabioCollection/_wikisearch?type=wiki&text=axios%20call)
 
 ```javascript
 var payload = { email: "user@google.com", password: "password" };
