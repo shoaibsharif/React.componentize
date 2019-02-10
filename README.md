@@ -1,7 +1,9 @@
-# Your First Repo 
+# Your First Repo
+
 This repo is here to give you a place to store your code and get familiar with Git :smile:
 
-# Summary of Commands 
+# Summary of Commands
+
 You should run these commands before you start coding. You can run these out of the git bash window.
 
 ```
@@ -13,40 +15,41 @@ npm install -g typescript
 
 ```
 
-
 # Files Included Here
 
-
-
 ## **template.html**
+
 A familiar template that you can use for your work. You can run this like you have any other files with live server.
 
-Be sure to have your Live Server Settings changed so that when it launches a new page it does so with the ```localhost```
+Be sure to have your Live Server Settings changed so that when it launches a new page it does so with the `localhost`
 
-Go File Menu> Preferences > Settings ... and then type in the search box: ```liveServer.settings.host```. The default is 127.0.0.1
+Go File Menu> Preferences > Settings ... and then type in the search box: `liveServer.settings.host`. The default is 127.0.0.1
 
-``` 
+```
 live-server.settings.host": "localhost"
 ```
 
 ## **np.sh**
+
 This file will set up Notepade++ as the default editor that Git will use when it needs you to provide a message.
 
 Run this file from the bash window like so:
-``` bash
+
+```bash
 
 ./np.sh
 
 ```
 
-
 ## **share-branch.sh**
-This will take your current changes and push them to the remote server (ie The Git Repo or The TFS Server where the Git Repo is located). 
 
-We do this so that you can _safely_ save your work on the sever, away from your machine, where you may lose your work by accident or simply to give others access to your code.  
+This will take your current changes and push them to the remote server (ie The Git Repo or The TFS Server where the Git Repo is located).
+
+We do this so that you can _safely_ save your work on the sever, away from your machine, where you may lose your work by accident or simply to give others access to your code.
 
 Run this file from the bash window like so:
-``` bash
+
+```bash
 
 ./share-branch.sh
 
@@ -55,10 +58,11 @@ Run this file from the bash window like so:
 This script runs a series of commands that you could very well run by hand. Here they are.
 
 ###Command Summary
-``` bash
 
-# Change Directory the the folder you want to work in
-cd /c/SF.Code/C36/Fundamentals
+```bash
+
+# Change Directory the the folder you want to work in (replace CXX with your cohort numbers)
+cd /c/SF.Code/CXX/Fundamentals
 # verify that you working directory is dirty, meaning it has pending changes
 git status
 
@@ -87,13 +91,8 @@ git reset HEAD^
 git status
 ```
 
-
 # Git
-The tools we will use to keep track of code changes is Git. Over the course of the first couple of weeks we will dig discuss more and more of Git. 
 
-:key: [Here](http://code.sabio.la:8080/tfs/SabioCollection/Content-General/_wiki/wikis/Content-General.wiki?wikiVersion=GBwikiMaster&pagePath=%2FGit%20Welcome) are some critical topics on Git 
+The tools we will use to keep track of code changes is Git. Over the course of the first couple of weeks we will dig discuss more and more of Git.
 
-
-
-
-
+:key: [Here](http://code.sabio.la:8080/tfs/SabioCollection/Content-General/_wiki/wikis/Content-General.wiki?wikiVersion=GBwikiMaster&pagePath=%2FGit%20Welcome) are some critical topics on Git
