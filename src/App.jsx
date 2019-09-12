@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          <a className="navbar-brand" href="#">
-            Navbar
-          </a>
+        <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark sabio">
+          <button className="link-button navbar-brand">Navbar</button>
           <button
             className="navbar-toggler"
             type="button"
@@ -25,19 +22,15 @@ class App extends Component {
           <div className="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active">
-                <a className="nav-link" href="#">
+                <button className="nav-link link-button">
                   Home <span className="sr-only">(current)</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Link
-                </a>
+                <button className="nav-link link-button">Link</button>
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled" href="#">
-                  Disabled
-                </a>
+                <button className="nav-link disabled">Disabled</button>
               </li>
               <li className="nav-item dropdown">
                 <a
@@ -51,15 +44,13 @@ class App extends Component {
                   Dropdown
                 </a>
                 <div className="dropdown-menu" aria-labelledby="dropdown01">
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                  <a className="dropdown-item" href="#">
+                  <button className="dropdown-item  link-button">Action</button>
+                  <button className="dropdown-item link-button">
                     Another action
-                  </a>
-                  <a className="dropdown-item" href="#">
+                  </button>
+                  <button className="dropdown-item  link-button">
                     Something else here
-                  </a>
+                  </button>
                 </div>
               </li>
             </ul>
@@ -91,9 +82,9 @@ class App extends Component {
                 to create something more unique.
               </p>
               <p>
-                <a className="btn btn-primary btn-lg" href="#" role="button">
+                <button className="btn btn-primary btn-lg">
                   Learn more &raquo;
-                </a>
+                </button>
               </p>
             </div>
           </div>
@@ -109,9 +100,9 @@ class App extends Component {
                   malesuada magna mollis euismod. Donec sed odio dui.
                 </p>
                 <p>
-                  <a className="btn btn-secondary" href="#" role="button">
+                  <button className="btn btn-secondary">
                     View details &raquo;
-                  </a>
+                  </button>
                 </p>
               </div>
               <div className="col-md-4">
@@ -123,9 +114,9 @@ class App extends Component {
                   malesuada magna mollis euismod. Donec sed odio dui.
                 </p>
                 <p>
-                  <a className="btn btn-secondary" href="#" role="button">
+                  <button className="btn btn-secondary">
                     View details &raquo;
-                  </a>
+                  </button>
                 </p>
               </div>
               <div className="col-md-4">
@@ -137,9 +128,9 @@ class App extends Component {
                   condimentum nibh, ut fermentum massa justo sit amet risus.
                 </p>
                 <p>
-                  <a className="btn btn-secondary" href="#" role="button">
+                  <button className="btn btn-secondary">
                     View details &raquo;
-                  </a>
+                  </button>
                 </p>
               </div>
             </div>
