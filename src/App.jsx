@@ -140,7 +140,7 @@ class App extends Component {
         </main>
 
         <footer className="container">
-          <p>&copy; Company 2017-2018</p>
+          <p>&copy; Sabio 2019-2020</p>
         </footer>
       </React.Fragment>
     );
