@@ -19,7 +19,14 @@ The following modules are already installed
 
 The goal of this exercise is to make break up the the web page see when you run via `yarn start` into different React Components.
 
-:star: Use the `/public/Step1.png` file located in the public folder as guidance for the compoenents you should create.
+:star: Use the `/public/Step1.png` file located in the public folder as guidance for the components you should create. 
+
+Your app should contain at least these components:
+
+- Footer
+- SiteNav
+- Jumbo
+- Content
 
 > This material was covered in the videos you have been pointed to, within this wiki
 
