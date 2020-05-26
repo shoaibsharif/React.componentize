@@ -4,7 +4,7 @@ Some important points to remember as you get started
 
 - You must execute a `yarn install` command before you can execute a `yarn start` command
 - Be sure to install all VS Code "Recommended Extensions" as they are required
-- Execute the ./share-branch.sh script to back up your every night. [Instructions](http://code.sabio.la:8080/tfs/SabioCollection/_wikisearch?type=wiki&text=quickly%20saving%20branch%20share-branch.sh)
+- Execute the ./share-branch.sh script to back up your every night. [Instructions](https://github.com/sabiocode/wiki/blob/master/general/github/Back-Up-Work.md)
 
 ### Already Installed Into This Appilication
 
@@ -41,13 +41,13 @@ Your app should contain at least these components:
 
 - Implement Routing to render the components
   - The package `react-router-dom` is already included in the packages.json file so you do not have to install
-  - [Wiki Page](http://code.sabio.la:8080/tfs/SabioCollection/Content-JavaScript/_wiki/wikis/Content-JavaScript.wiki?pagePath=%2FJavascript%20Home%2FReact%20Home%2FReact%20Router&wikiVersion=GBwikiMaster)
+  - [Wiki Page](https://github.com/sabiocode/wiki/blob/2be205f2d3bd64867c8acaf6a4392c2172b45cb1/javascript/React/React-Router.md)
 
 ## Implement an Ajax Call
 
 - Make a hard coded ajax call to the login endpoint (user example below)
 
-  - Search this wiki ["Axios Template"](http://code.sabio.la:8080/tfs/SabioCollection/_wikisearch?type=wiki&text=axios%20call)
+  - Search this wiki ["Axios Template"](https://github.com/sabiocode/wiki/blob/master/javascript/Axios/Axios-Template-Call.md)
 
 ```javascript
 var payload = { email: "user@google.com", password: "password" };
