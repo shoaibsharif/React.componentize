@@ -74,7 +74,7 @@ yarn install
 ```
 Then you execute:
 ```bash
-yarn install
+yarn start
 ```
 
 ##### Saving Work
