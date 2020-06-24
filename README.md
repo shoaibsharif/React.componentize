@@ -57,7 +57,7 @@ Your app should contain at least these components:
 
 - Make a hard coded ajax call to the login endpoint (user example below)
 
-  - Search this wiki ["Axios Template"](https://github.com/sabiocode/wiki/blob/master/javascript/Axios/Axios-Template-Call.md)
+  - Search this wiki ["Axios Template"](https://github.com/sabiocode/wiki/blob/master/javascript/Axios)
 
 ```javascript
 var payload = { email: "user@google.com", password: "password" };
