@@ -22,6 +22,7 @@ username=$(git config user.name | perl -ne 'chomp; s/\s+/-/g; s/[^-A-Z]//ig; pri
 date=$(date +"%Y%m%d-%H%M%S")
 branch="$username/$date"
 
+
 dirt_count=$(git status --short | wc -l)
 if [ $dirt_count != 0 ]; then
 	git add -A
@@ -34,11 +35,14 @@ git checkout -
 git reset HEAD^
 
 origin_url=$(git remote get-url origin)
+
+
+
 escaped_branch=$(echo $branch | perl -MURI::Escape -ne 'chomp; print uri_escape($_)')
 echo
 echo If you ran this script by mistake and want to delete your server branch:
 echo git push origin :$branch
 echo 
 echo Your branch can be viewed online at:
-echo $origin_url?version=GB$escaped_branch
+echo ${origin_url:0:${#origin_url}-4}/tree/$branch
 echo Done!
