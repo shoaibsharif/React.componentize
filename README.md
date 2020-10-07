@@ -63,6 +63,10 @@ Your app should contain at least these components:
 var payload = { email: "user@google.com", password: "password" };
 ```
 
+## Implement an Ajax Call on ComponentDidMount
+
+- Make the same ajax call to the login endpoint as the section above but make the call on when the component mounts. (Use componentDidMount)
+
 ### Command Examples
 
 These are the command example that you would need to run out of the terminal to get your react application up and running.
@@ -83,3 +87,22 @@ From within the folder that contains the `share-branch.json` file.
 ```bash
 ./share-branch.sh
 ```
+
+##### Using rc-pagintation
+Once you are ready to do pagination in React you should use the library installed already called rc-pagination.
+
+For more on using this go to he documentation:
+
+- https://github.com/react-component/pagination
+
+
+*It is very important that you import the css file to use this library*
+
+To import the css file add to the top of the component: 
+
+  ```javascript
+import 'rc-pagination/assets/index.css'
+```
+
+
+
