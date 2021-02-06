@@ -4,7 +4,7 @@ Some important points to remember as you get started
 
 - You must execute a `yarn install` command out of the terminal or the Git Bash window before you can execute a `yarn start` command
 - Be sure to install all VS Code "Recommended Extensions" as they are required
-- Execute the ./share-branch.sh script to back up your every night. [Instructions](https://github.com/sabiocode/wiki/blob/master/general/github/Sharing-a-Branch.md)
+
 
 Command examples can be found at the bottom of this file.
 
@@ -93,6 +93,7 @@ From within the folder that contains the `share-branch.json` file.
 ```bash
 sabio -sb
 ```
+This command will save a copy of your code on our GitHub account so you can share or backup you code. You can/should do this every day.
 
 ##### Using rc-pagintation
 Once you are ready to do pagination in React you should use the library installed already called rc-pagination.
