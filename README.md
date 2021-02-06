@@ -55,7 +55,7 @@ Your app should contain at least these components:
 
 ## Implement an Ajax Call
 
-- Make a hard coded ajax call to the login endpoint (user example below)
+- Make a hard coded ajax call to the login endpoint (user example below) inside your click handler function so that when you clikc, you make the ajax/axios call
 
   - Search this wiki ["Axios Template"](https://github.com/sabiocode/wiki/blob/master/javascript/Axios)
 
@@ -81,11 +81,17 @@ Then you execute:
 yarn start
 ```
 
+### Install Sabio Module
+From Bash window run the following command
+```bash
+npm install sabio -g
+```
+
 ##### Saving Work
 From Git Bash window
 From within the folder that contains the `share-branch.json` file.
 ```bash
-./share-branch.sh
+sabio -sb
 ```
 
 ##### Using rc-pagintation
