@@ -51,7 +51,7 @@ Your app should contain at least these components:
 
 - Implement Routing to render the components
   - The package `react-router-dom` is already included in the packages.json file so you do not have to install
-  - [Wiki Page](https://github.com/sabiocode/wiki/blob/2be205f2d3bd64867c8acaf6a4392c2172b45cb1/javascript/React/React-Router.md)
+  - [Wiki Page](https://github.com/sabiocode/wiki/blob/master/javascript/React/React-Router/README.md)
 
 ## Implement an Ajax Call
 
