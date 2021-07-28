@@ -1,9 +1,7 @@
 {
   "files.exclude": {
     "yarn.lock": true,
-    "node_modules": true,
     "np.sh": true,
-    ".gitignore": true,
     "template.html": true
   },
   "editor.formatOnSave": true,
