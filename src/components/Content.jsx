@@ -41,8 +41,6 @@ const Content = () => {
           </p>
         </div>
       </div>
-
-      <hr />
     </div>
   );
 };
