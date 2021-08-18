@@ -1,36 +1,29 @@
-import axios from "axios";
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { toast } from "react-toastify";
 import ApplicationErrors from "../components/ApplicationErrors";
 
 class Login extends Component {
   state = {
-    email: "",
-    password: "",
+    email: "shoaib19j@gmail.com",
+    password: "Sabiopassword1!",
     errors: [],
   };
-  componentDidMount() {
-    axios
-      .get("/users/current")
-      .then(() => this.props.history.replace("/dashboard"));
-  }
 
+  componentDidMount() {
+    if (this.props.user) this.props.history.replace("/dashboard");
+  }
+  componentDidUpdate() {
+    if (this.props.user) this.props.history.replace("/dashboard");
+  }
   onChangeInput = (e) =>
-    this.setState({ ...this.state, [e.target.name]: e.target.value });
+    this.setState(() => ({ ...this.state, [e.target.name]: e.target.value }));
 
   submitForm = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/users/login", {
+      await this.props.login({
         email: this.state.email,
         password: this.state.password,
-        tenantId: "U023C6VN34L",
       });
-      toast("Successfully logged in 👍");
-      this.props.history.replace(
-        this.props.location?.state.from ?? "/dashboard"
-      );
     } catch (error) {
       this.setState({ ...this.state, errors: ["Invalid credentials"] });
     }
@@ -38,7 +31,7 @@ class Login extends Component {
   render() {
     return (
       <div className="max-w-md w-full flex-grow mx-auto flex flex-col justify-center ">
-        <ApplicationErrors errors={this.state.errors} />
+        {this.state.errors && <ApplicationErrors errors={this.state.errors} />}
         <form onSubmit={this.submitForm} method="post">
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
@@ -79,4 +72,4 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login);
+export default Login;

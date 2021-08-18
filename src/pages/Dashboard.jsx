@@ -1,14 +1,13 @@
-import React from "react";
-import useAuth from "../lib/auth";
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
-const Dashboard = () => {
-  const { user } = useAuth();
-  return (
-    <div className="container">
-      Hi {user?.name}
-      <pre>{user ? JSON.stringify(user, undefined, 4) : null}</pre>
-    </div>
-  );
-};
+class Dashboard extends Component {
+  componentDidUpdate() {
+    if (!this.props.user) this.props.history.replace("/login");
+  }
+  render() {
+    return <div className="container">Hi {this.props.user.name} </div>;
+  }
+}
 
-export default Dashboard;
+export default withRouter(Dashboard);

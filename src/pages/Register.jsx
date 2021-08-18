@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Component } from "react";
+import toast from "react-hot-toast";
 import ApplicationErrors from "../components/ApplicationErrors";
 
 class Register extends Component {
@@ -11,6 +12,9 @@ class Register extends Component {
     lastName: "",
     errors: [],
   };
+  componentDidMount() {
+    this.props.history.replace("/dashboard");
+  }
   changeForm = (e, key) =>
     this.setState({ ...this.state, [key]: e.target.value });
 
@@ -22,6 +26,8 @@ class Register extends Component {
         avatarUrl: `https://ui-avatars.com/api/?name=${this.state.firstName}+${this.state.lastName}`,
         tenantId: "U023C6VN34L",
       });
+      toast.success("Successfully registered. Please log in");
+      this.props.history.push("/login");
     } catch (error) {
       this.setState({ ...this.state, errors: error.response.data.errors });
     }

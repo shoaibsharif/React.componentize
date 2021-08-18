@@ -1,81 +1,76 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
-import useAuth from "../lib/auth";
+import { Link, withRouter } from "react-router-dom";
+import debug from "sabio-debug";
+const _logger = debug.extend("SiteNav");
 
-const Header = () => {
-  const { user, logout } = useAuth();
-  const history = useHistory();
-
+const Header = (props) => {
+  _logger("Rendering Navigation");
   return (
-    <header className="p-3 bg-dark text-white">
+    <header className="p-3 text-white bg-indigo-700">
       <div className="container">
-        <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-          <a
-            href="/"
-            className="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
-          >
+        <div className="flex flex-wrap items-center justify-center lg:justify-start">
+          <Link to="/" className="flex items-center mb-2 text-white lg:mb-0 ">
             <img
               src="https://pw.sabio.la/images/Sabio.png"
               width="30"
               height="30"
-              className="d-inline-block align-top"
+              className="inline-block align-top"
               alt="Sabio"
             />
-          </a>
+          </Link>
 
-          <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <ul className="flex justify-center flex-grow mb-2 md:justify-start md:mb-0">
             <li>
-              <Link to="/" className="nav-link px-2 text-secondary link-button">
+              <Link
+                to="/"
+                className="px-2 text-white nav-link hover:text-opacity-90 link-button"
+              >
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/one" className="nav-link px-2 text-white link-button">
-                page-1
+              <Link
+                to="/friends"
+                className="px-2 text-white nav-link link-button"
+              >
+                People
               </Link>
             </li>
             <li>
-              <Link to="/two" className="nav-link px-2 text-white link-button">
-                page-2
+              <Link to="/two" className="px-2 text-white nav-link link-button">
+                Blogs
               </Link>
             </li>
             <li>
-              <button href="#" className="nav-link px-2 text-white link-button">
-                FAQs
+              <button href="#" className="px-2 text-white nav-link link-button">
+                Tech Co.
               </button>
             </li>
             <li>
-              <button href="#" className="nav-link px-2 text-white link-button">
-                About
+              <button href="#" className="px-2 text-white nav-link link-button">
+                Jobs
+              </button>
+            </li>
+            <li>
+              <button href="#" className="px-2 text-white nav-link link-button">
+                Events
               </button>
             </li>
           </ul>
 
-          <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-            <input
-              type="search"
-              className="form-control form-control-dark"
-              placeholder="Search..."
-              aria-label="Search"
-            />
-          </form>
-
-          {user ? (
+          {props.user ? (
             <div className="text-end">
               <button
                 type="button"
-                className="btn btn-outline-light me-2"
-                onClick={() => history.push("dashboard")}
+                className="px-3 py-2 mr-2 text-yellow-900 bg-yellow-200 rounded"
+                onClick={() => props.history.push("/dashboard")}
               >
                 Dashboard
               </button>
               <button
                 type="button"
-                className="btn btn-warning"
-                onClick={() => {
-                  history.replace("/login");
-                  logout();
-                }}
+                className="px-3 py-2 text-red-900 bg-red-200 rounded"
+                onClick={props.logout}
               >
                 Logout
               </button>
@@ -85,14 +80,14 @@ const Header = () => {
               <button
                 type="button"
                 className="btn btn-outline-light me-2"
-                onClick={() => history.push("login")}
+                onClick={() => props.history.push("login")}
               >
                 Login
               </button>
               <button
                 type="button"
                 className="btn btn-warning"
-                onClick={() => history.push("register")}
+                onClick={() => props.history.push("register")}
               >
                 Sign-up
               </button>
@@ -104,4 +99,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);
