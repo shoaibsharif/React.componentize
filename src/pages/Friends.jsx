@@ -1,14 +1,11 @@
 import axios from "axios";
 import { Component, Fragment } from "react";
-import debug from "debug";
 import { Transition, Dialog, Listbox } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
 import { produce } from "immer";
 import ApplicationErrors from "../components/ApplicationErrors";
 import ConfirmationModal from "../components/ConfirmationModal";
-
-const _logger = debug.extend("Friends");
 
 const friendsStatus = ["NotSet", "Active", "Deleted", "Flagged"];
 
@@ -36,12 +33,10 @@ class Friends extends Component {
       axios
         .get(`/friends?pageIndex=${this.state.pageIndex + 1}&pageSize=10`)
         .then((res) => {
-          _logger({ responseData: res.data });
           this.setState((prev) => ({ ...prev, ...res.data?.item }));
         })
         .catch((e) => {
           toast.error(e?.response.data?.errors?.join());
-          _logger.extend("error")(e?.response?.data);
         });
     }
   };
@@ -50,12 +45,10 @@ class Friends extends Component {
       axios
         .get(`/friends?pageIndex=${this.state.pageIndex - 1}&pageSize=2`)
         .then((res) => {
-          _logger({ responseData: res.data });
           this.setState((prev) => ({ ...prev, ...res.data?.item }));
         })
         .catch((e) => {
           toast.error(e?.response.data?.errors?.join());
-          _logger.extend("error")(e?.response?.data);
         });
     }
   };
@@ -160,7 +153,7 @@ class Friends extends Component {
         })
       );
     } catch (error) {
-      _logger(error);
+      console.log(error);
     }
   };
   submitForm = (e) => {

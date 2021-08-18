@@ -1,10 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import debug from "debug";
-const _logger = debug.extend("SiteNav");
 
 const Header = (props) => {
-  _logger("Rendering Navigation");
   return (
     <header className="p-3 text-white bg-indigo-700">
       <div className="container">

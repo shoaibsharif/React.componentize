@@ -10,10 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import { toast } from "react-hot-toast";
-import debug from "debug";
 import Friends from "./pages/Friends";
-debug.log = console.log.bind(console);
-const _logger = debug.extend("App");
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "https://api.remotebootcamp.dev/api";
@@ -23,7 +20,6 @@ class App extends Component {
     user: null,
   };
   componentDidMount() {
-    _logger("Component did mount", this.state);
     this.getCurrentUser();
   }
   getCurrentUser = () => {
@@ -57,7 +53,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="flex min-h-screen flex-col">
+        <div className="flex flex-col min-h-screen">
           <SiteNav user={this.state.user} logout={this.logout} />
           <Switch>
             <Route exact path="/" component={Home} />
