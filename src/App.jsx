@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import { toast } from "react-hot-toast";
-import debug from "sabio-debug";
+import debug from "debug";
 import Friends from "./pages/Friends";
 debug.log = console.log.bind(console);
 const _logger = debug.extend("App");

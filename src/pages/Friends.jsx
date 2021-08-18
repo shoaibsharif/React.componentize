@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Component, Fragment } from "react";
-import debug from "sabio-debug";
+import debug from "debug";
 import { Transition, Dialog, Listbox } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";

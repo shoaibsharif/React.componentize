@@ -4048,7 +4048,7 @@
   dependencies:
     "ms" "^2.1.1"
 
-"debug@^4.0.1", "debug@^4.1.0", "debug@^4.1.1", "debug@^4.3.1", "debug@4":
+"debug@^4.0.1", "debug@^4.1.0", "debug@^4.1.1", "debug@^4.3.1", "debug@^4.3.2", "debug@4":
   "integrity" "sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-4.3.2.tgz"
   "version" "4.3.2"
@@ -10151,12 +10151,6 @@
   "version" "1.0.3"
   dependencies:
     "aproba" "^1.1.1"
-
-"sabio-debug@github:sabiocode/debug":
-  "resolved" "git+ssh://git@github.com/sabiocode/debug.git#aae5541152ef7a2cd36bf25574182d6972ddf9c6"
-  "version" "1.0.0"
-  dependencies:
-    "debug" "^4.1.1"
 
 "sabio@^1.0.2":
   "integrity" "sha512-8r46pD0tqufnNZ01UMpNljw7Zd3uxVNSpLjLbZWSQmJ2FVLSMHBxJhEgIZ3m5CC2QBPocKjJlNkfo09WUkXF1Q=="

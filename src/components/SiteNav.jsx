@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import debug from "sabio-debug";
+import debug from "debug";
 const _logger = debug.extend("SiteNav");
 
 const Header = (props) => {
