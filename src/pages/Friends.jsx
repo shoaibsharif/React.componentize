@@ -12,7 +12,7 @@ const friendsStatus = ["NotSet", "Active", "Deleted", "Flagged"];
 class Friends extends Component {
   state = {
     pagedItems: [],
-    pageIndex: 0,
+    pageIndex: -1,
     totalPages: 1,
     hasNextPage: true,
     hasPreviousPage: false,
@@ -28,10 +28,10 @@ class Friends extends Component {
       primaryImage: "",
     },
   };
-  fetchFriends = (page) => {
+  fetchNextFriends = () => {
     if (this.state.hasNextPage) {
       axios
-        .get(`/friends?pageIndex=${page}&pageSize=10`)
+        .get(`/friends?pageIndex=${this.state.pageIndex + 1}&pageSize=10`)
         .then((res) => {
           this.setState((prev) => ({ ...prev, ...res.data?.item }));
         })
@@ -77,7 +77,7 @@ class Friends extends Component {
           summary: "",
           headline: "",
           slug: "",
-          statusId: friendsStatus[1],
+          statusId: friendsStatus[0],
           primaryImage: "",
         };
       })
@@ -96,6 +96,18 @@ class Friends extends Component {
   editFriendModal = (item) => {
     this.setState(
       produce(this.state, (draft) => {
+        // const modifiedItem = {};
+        // Object.keys(item).forEach((key) => {
+        //   console.log({ key });
+        //   if (typeof item[key] === "string" && item[key] === "string") {
+        //     modifiedItem[key] = "";
+        //   } else if (key === "primaryImage") {
+        //     modifiedItem[key] =
+        //       item[key].imageUrl === "string" ? "" : item[key].imageUrl;
+        //   } else {
+        //     modifiedItem[key] = item[key];
+        //   }
+        // });
         draft.friendForm = {
           ...item,
           primaryImage: item.primaryImage.imageUrl,
