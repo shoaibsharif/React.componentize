@@ -76,14 +76,14 @@ const Header = (props) => {
             <div className="text-end">
               <button
                 type="button"
-                className="btn btn-outline-light me-2"
+                className="mr-2 hover:underline hover:opacity-80"
                 onClick={() => props.history.push("login")}
               >
                 Login
               </button>
               <button
                 type="button"
-                className="btn btn-warning"
+                className="hover:underline hover:opacity-80"
                 onClick={() => props.history.push("register")}
               >
                 Sign-up

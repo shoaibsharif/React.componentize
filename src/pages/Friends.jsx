@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Component, Fragment } from "react";
 import { Transition, Dialog, Listbox } from "@headlessui/react";
-import { SelectorIcon } from "@heroicons/react/outline";
+import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
 import { produce } from "immer";
 import ApplicationErrors from "../components/ApplicationErrors";
@@ -12,7 +12,7 @@ const friendsStatus = ["NotSet", "Active", "Deleted", "Flagged"];
 class Friends extends Component {
   state = {
     pagedItems: [],
-    pageIndex: -1,
+    pageIndex: 0,
     totalPages: 1,
     hasNextPage: true,
     hasPreviousPage: false,
@@ -24,14 +24,14 @@ class Friends extends Component {
       summary: "",
       headline: "",
       slug: "",
-      statusId: friendsStatus[0],
+      statusId: friendsStatus[1],
       primaryImage: "",
     },
   };
-  fetchNextFriends = () => {
+  fetchFriends = (page) => {
     if (this.state.hasNextPage) {
       axios
-        .get(`/friends?pageIndex=${this.state.pageIndex + 1}&pageSize=10`)
+        .get(`/friends?pageIndex=${page}&pageSize=10`)
         .then((res) => {
           this.setState((prev) => ({ ...prev, ...res.data?.item }));
         })
@@ -77,7 +77,7 @@ class Friends extends Component {
           summary: "",
           headline: "",
           slug: "",
-          statusId: friendsStatus[0],
+          statusId: friendsStatus[1],
           primaryImage: "",
         };
       })
@@ -96,19 +96,10 @@ class Friends extends Component {
   editFriendModal = (item) => {
     this.setState(
       produce(this.state, (draft) => {
-        const modifiedItem = {};
-        Object.keys(item).forEach((key) => {
-          console.log({ key });
-          if (typeof item[key] === "string" && item[key] === "string") {
-            modifiedItem[key] = "";
-          } else if (key === "primaryImage") {
-            modifiedItem[key] =
-              item[key].imageUrl === "string" ? "" : item[key].imageUrl;
-          } else {
-            modifiedItem[key] = item[key];
-          }
-        });
-        draft.friendForm = modifiedItem;
+        draft.friendForm = {
+          ...item,
+          primaryImage: item.primaryImage.imageUrl,
+        };
       })
     );
     this.openModal();
@@ -265,7 +256,7 @@ class Friends extends Component {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    {this.state.friendForm.title === ""
+                    {!this.state.friendForm.id
                       ? "Create a new friend"
                       : `Edit ${this.state.friendForm.title}`}
                   </Dialog.Title>
@@ -365,11 +356,18 @@ class Friends extends Component {
                                       active
                                         ? "text-indigo-900 bg-indigo-100"
                                         : null
-                                    } cursor-default select-none relative py-2 px-4`
+                                    } cursor-default select-none relative py-2 px-4 relative`
                                   }
                                   value={stat}
                                 >
-                                  {stat}
+                                  {({ selected }) => (
+                                    <>
+                                      {stat}
+                                      {selected && (
+                                        <CheckIcon className="absolute w-5 h-5 text-indigo-900 transform -translate-y-1/2 right-2 top-1/2" />
+                                      )}
+                                    </>
+                                  )}
                                 </Listbox.Option>
                               ))}
                             </Listbox.Options>

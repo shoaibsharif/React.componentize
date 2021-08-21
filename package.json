@@ -6,10 +6,12 @@
     "@craco/craco": "^6.2.0",
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
+    "@tailwindcss/forms": "^0.3.3",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
     "debug": "^4.3.2",
     "immer": "^9.0.5",
+    "isomorphic-ws": "^4.0.1",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
     "rc-pagination": "^3.1.7",
@@ -21,7 +23,8 @@
     "reactstrap": "^8.9.0",
     "sabio": "^1.0.2",
     "sweetalert2": "^11.0.18",
-    "sweetalert2-react-content": "^4.1.0"
+    "sweetalert2-react-content": "^4.1.0",
+    "ws": "^8.2.0"
   },
   "scripts": {
     "start": "craco start",

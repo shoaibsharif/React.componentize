@@ -12,9 +12,9 @@ class Register extends Component {
     lastName: "",
     errors: [],
   };
-  componentDidMount() {
-    this.props.history.replace("/dashboard");
-  }
+  // componentDidMount() {
+  //   if (this.props.user) this.props.history.replace("/dashboard");
+  // }
   changeForm = (e, key) =>
     this.setState({ ...this.state, [key]: e.target.value });
 
@@ -34,10 +34,10 @@ class Register extends Component {
   };
   render() {
     return (
-      <div className="max-w-md w-full flex-grow mx-auto flex flex-col justify-center ">
+      <div className="flex flex-col justify-center flex-grow w-full max-w-sm mx-auto ">
         <ApplicationErrors errors={this.state.errors} />
         <form onSubmit={this.submitForm}>
-          <div className="mb-3 w-full">
+          <div className="flex flex-col w-full mb-3">
             <label htmlFor="firstName" className="form-label">
               First Name
             </label>
@@ -46,12 +46,12 @@ class Register extends Component {
               type="text"
               value={this.state.firstName}
               onChange={(e) => this.changeForm(e, "firstName")}
-              className="form-control"
+              className="transition border border-gray-400 rounded focus:ring focus:ring-purple-500 focus:ring-opacity-70 focus:outline-none"
               id="firstName"
               aria-describedby="emailHelp"
             />
           </div>
-          <div className="mb-3">
+          <div className="flex flex-col mb-3">
             <label htmlFor="lastName" className="form-label">
               Last Name
             </label>
@@ -60,12 +60,12 @@ class Register extends Component {
               required
               value={this.state.lastName}
               onChange={(e) => this.changeForm(e, "lastName")}
-              className="form-control"
+              className="transition border border-gray-400 rounded focus:ring focus:ring-purple-500 focus:ring-opacity-70 focus:outline-none"
               id="lastName"
               aria-describedby="emailHelp"
             />
           </div>
-          <div className="mb-3">
+          <div className="flex flex-col mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
               Email address
             </label>
@@ -74,15 +74,15 @@ class Register extends Component {
               required
               value={this.state.email}
               onChange={(e) => this.changeForm(e, "email")}
-              className="form-control"
+              className="transition border border-gray-400 rounded focus:ring focus:ring-purple-500 focus:ring-opacity-70 focus:outline-none"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
             />
-            <div id="emailHelp" className="form-text">
+            <div id="emailHelp" className="text-sm text-gray-500">
               We'll never share your email with anyone else.
             </div>
           </div>
-          <div className="mb-3">
+          <div className="flex flex-col mb-3">
             <label htmlFor="password" className="form-label">
               Password
             </label>
@@ -91,11 +91,11 @@ class Register extends Component {
               type="password"
               value={this.state.password}
               onChange={(e) => this.changeForm(e, "password")}
-              className="form-control"
+              className="transition border border-gray-400 rounded focus:ring focus:ring-purple-500 focus:ring-opacity-70 focus:outline-none"
               id="password"
             />
           </div>
-          <div className="mb-3">
+          <div className="flex flex-col mb-3">
             <label htmlFor="confirmPassword" className="form-label">
               Confirm Password
             </label>
@@ -104,11 +104,11 @@ class Register extends Component {
               type="password"
               value={this.state.passwordConfirm}
               onChange={(e) => this.changeForm(e, "passwordConfirm")}
-              className="form-control"
+              className="transition border border-gray-400 rounded focus:ring focus:ring-purple-500 focus:ring-opacity-70 focus:outline-none"
               id="confirmPassword"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="primary-button">
             Submit
           </button>
         </form>

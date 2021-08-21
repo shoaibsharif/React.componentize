@@ -69,6 +69,7 @@ class App extends Component {
                 />
               )}
             />
+            {/* Need to check whether the user is logged in or not. If logged in, then navigate to dashboard */}
             <Route path="/register" component={Register} />
             <Route
               path="/dashboard"

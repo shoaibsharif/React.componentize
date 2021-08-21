@@ -30,10 +30,10 @@ class Login extends Component {
   };
   render() {
     return (
-      <div className="max-w-md w-full flex-grow mx-auto flex flex-col justify-center ">
+      <div className="flex flex-col justify-center flex-grow w-full max-w-sm mx-auto ">
         {this.state.errors && <ApplicationErrors errors={this.state.errors} />}
         <form onSubmit={this.submitForm} method="post">
-          <div className="mb-3">
+          <div className="flex flex-col mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
               Email address
             </label>
@@ -42,15 +42,15 @@ class Login extends Component {
               name="email"
               value={this.state.email}
               onChange={this.onChangeInput}
-              className="form-control"
+              className="transition border border-gray-400 rounded focus:ring focus:ring-purple-500 focus:ring-opacity-70 focus:outline-none"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
             />
-            <div id="emailHelp" className="form-text">
+            <div id="emailHelp" className="text-sm text-gray-400">
               We'll never share your email with anyone else.
             </div>
           </div>
-          <div className="mb-3">
+          <div className="flex flex-col mb-3">
             <label htmlFor="exampleInputPassword1" className="form-label">
               Password
             </label>
@@ -59,11 +59,11 @@ class Login extends Component {
               name="password"
               value={this.state.password}
               onChange={this.onChangeInput}
-              className="form-control"
+              className="transition border border-gray-400 rounded focus:ring focus:ring-purple-500 focus:ring-opacity-70 focus:outline-none"
               id="exampleInputPassword1"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="primary-button">
             Submit
           </button>
         </form>
