@@ -11,6 +11,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import { toast } from "react-hot-toast";
 import Friends from "./pages/Friends";
+import {enableMapSet} from 'immer'
+enableMapSet()
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "https://api.remotebootcamp.dev/api";

@@ -12,6 +12,7 @@ const friendsStatus = ["NotSet", "Active", "Deleted", "Flagged"];
 class Friends extends Component {
   state = {
     pagedItems: [],
+    pages: new Map(),
     pageIndex: -1,
     totalPages: 1,
     hasNextPage: true,
@@ -28,28 +29,42 @@ class Friends extends Component {
       primaryImage: "",
     },
   };
-  fetchNextFriends = () => {
-    if (this.state.hasNextPage) {
-      axios
-        .get(`/friends?pageIndex=${this.state.pageIndex + 1}&pageSize=10`)
+  fetchPage = (page) => {
+const currentPageData = this.state.pages.get(page)
+    if(currentPageData){
+// return the data that exist on pages Map
+this.setState(() => produce(this.state, draft => {
+   draft.pageIndex = currentPageData.pageIndex
+            draft.totalPages = currentPageData.totalPages ?? 1;
+            draft.hasNextPage = currentPageData.hasNextPage || false;
+            draft.hasPreviousPage = currentPageData.hasPreviousPage || false;
+            draft.pagedItems = currentPageData.pagedItems
+}))
+    }else {
+axios.get(`/friends?pageIndex=${page}&pageSize=10`)
         .then((res) => {
-          this.setState((prev) => ({ ...prev, ...res.data?.item }));
+          this.setState(() => produce(this.state, draft => {
+            draft.pageIndex = res.data?.item.pageIndex
+            draft.totalPages = res.data?.item.totalPages ?? 1;
+            draft.hasNextPage = res.data?.item.hasNextPage || false;
+            draft.hasPreviousPage = res.data?.item.hasPreviousPage || false;
+            draft.pagedItems = res.data?.item.pagedItems
+draft.pages.set(res.data.item.pageIndex, {...res.data.item})
+          }));
         })
         .catch((e) => {
           toast.error(e?.response.data?.errors?.join());
         });
     }
+  }
+  fetchNextFriends = () => {
+    if (this.state.hasNextPage) {
+      this.fetchPage(this.state.pageIndex + 1)
+    }
   };
   fetchPreviousFriends = () => {
     if (this.state.hasPreviousPage) {
-      axios
-        .get(`/friends?pageIndex=${this.state.pageIndex - 1}&pageSize=2`)
-        .then((res) => {
-          this.setState((prev) => ({ ...prev, ...res.data?.item }));
-        })
-        .catch((e) => {
-          toast.error(e?.response.data?.errors?.join());
-        });
+     this.fetchPage(this.state.pageIndex - 1);
     }
   };
   openModal = () => {
