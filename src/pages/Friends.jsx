@@ -30,41 +30,46 @@ class Friends extends Component {
     },
   };
   fetchPage = (page) => {
-const currentPageData = this.state.pages.get(page)
-    if(currentPageData){
-// return the data that exist on pages Map
-this.setState(() => produce(this.state, draft => {
-   draft.pageIndex = currentPageData.pageIndex
-            draft.totalPages = currentPageData.totalPages ?? 1;
-            draft.hasNextPage = currentPageData.hasNextPage || false;
-            draft.hasPreviousPage = currentPageData.hasPreviousPage || false;
-            draft.pagedItems = currentPageData.pagedItems
-}))
-    }else {
-axios.get(`/friends?pageIndex=${page}&pageSize=10`)
+    const currentPageData = this.state.pages.get(page);
+    if (currentPageData) {
+      // return the data that exist on pages Map
+      this.setState(() =>
+        produce(this.state, (draft) => {
+          draft.pageIndex = currentPageData.pageIndex;
+          draft.totalPages = currentPageData.totalPages ?? 1;
+          draft.hasNextPage = currentPageData.hasNextPage || false;
+          draft.hasPreviousPage = currentPageData.hasPreviousPage || false;
+          draft.pagedItems = currentPageData.pagedItems;
+        })
+      );
+    } else {
+      axios
+        .get(`/friends?pageIndex=${page}&pageSize=6`)
         .then((res) => {
-          this.setState(() => produce(this.state, draft => {
-            draft.pageIndex = res.data?.item.pageIndex
-            draft.totalPages = res.data?.item.totalPages ?? 1;
-            draft.hasNextPage = res.data?.item.hasNextPage || false;
-            draft.hasPreviousPage = res.data?.item.hasPreviousPage || false;
-            draft.pagedItems = res.data?.item.pagedItems
-draft.pages.set(res.data.item.pageIndex, {...res.data.item})
-          }));
+          this.setState(() =>
+            produce(this.state, (draft) => {
+              draft.pageIndex = res.data?.item.pageIndex;
+              draft.totalPages = res.data?.item.totalPages ?? 1;
+              draft.hasNextPage = res.data?.item.hasNextPage || false;
+              draft.hasPreviousPage = res.data?.item.hasPreviousPage || false;
+              draft.pagedItems = res.data?.item.pagedItems;
+              draft.pages.set(res.data.item.pageIndex, { ...res.data.item });
+            })
+          );
         })
         .catch((e) => {
           toast.error(e?.response.data?.errors?.join());
         });
     }
-  }
+  };
   fetchNextFriends = () => {
     if (this.state.hasNextPage) {
-      this.fetchPage(this.state.pageIndex + 1)
+      this.fetchPage(this.state.pageIndex + 1);
     }
   };
   fetchPreviousFriends = () => {
     if (this.state.hasPreviousPage) {
-     this.fetchPage(this.state.pageIndex - 1);
+      this.fetchPage(this.state.pageIndex - 1);
     }
   };
   openModal = () => {
@@ -111,18 +116,6 @@ draft.pages.set(res.data.item.pageIndex, {...res.data.item})
   editFriendModal = (item) => {
     this.setState(
       produce(this.state, (draft) => {
-        // const modifiedItem = {};
-        // Object.keys(item).forEach((key) => {
-        //   console.log({ key });
-        //   if (typeof item[key] === "string" && item[key] === "string") {
-        //     modifiedItem[key] = "";
-        //   } else if (key === "primaryImage") {
-        //     modifiedItem[key] =
-        //       item[key].imageUrl === "string" ? "" : item[key].imageUrl;
-        //   } else {
-        //     modifiedItem[key] = item[key];
-        //   }
-        // });
         draft.friendForm = {
           ...item,
           primaryImage: item.primaryImage.imageUrl,
