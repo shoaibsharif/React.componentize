@@ -44,9 +44,9 @@ const Header = (props) => {
               </button>
             </li>
             <li>
-              <button href="#" className="px-2 text-white nav-link link-button">
+              <Link to="/jobs" className="px-2 text-white nav-link link-button">
                 Jobs
-              </button>
+              </Link>
             </li>
             <li>
               <button href="#" className="px-2 text-white nav-link link-button">

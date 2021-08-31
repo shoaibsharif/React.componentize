@@ -9,10 +9,16 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    if (this.props.user) this.props.history.replace("/dashboard");
+    if (this.props.user)
+      this.props.history.replace(
+        this.props.location?.state?.from || "/dashboard"
+      );
   }
   componentDidUpdate() {
-    if (this.props.user) this.props.history.replace("/dashboard");
+    if (this.props.user)
+      this.props.history.replace(
+        this.props.location?.state?.from || "/dashboard"
+      );
   }
   onChangeInput = (e) =>
     this.setState(() => ({ ...this.state, [e.target.name]: e.target.value }));

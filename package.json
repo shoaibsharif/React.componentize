@@ -3,34 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^6.2.0",
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
     "@tailwindcss/forms": "^0.3.3",
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.2",
-    "debug": "^4.3.2",
+    "i": "^0.3.6",
     "immer": "^9.0.5",
     "isomorphic-ws": "^4.0.1",
-    "jquery": "^3.6.0",
-    "popper.js": "^1.16.1",
+    "npm": "^7.21.1",
     "rc-pagination": "^3.1.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-toast": "^2.1.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
-    "reactstrap": "^8.9.0",
-    "sabio": "^1.0.2",
-    "sweetalert2": "^11.0.18",
-    "sweetalert2-react-content": "^4.1.0",
-    "ws": "^8.2.0"
+    "react-select": "^4.3.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,8 +33,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
+    "autoprefixer": "^10.3.3",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7",
+    "vite": "^2.5.1",
+    "vite-react-jsx": "^1.1.2"
   }
 }

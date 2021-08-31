@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Transition, Dialog } from "@headlessui/react";
-import { ExclamationIcon } from "@heroicons/react/outline";
+import ExclamationIcon from "@heroicons/react/outline/ExclamationIcon";
 
 export class ConfirmationModal extends Component {
   state = {

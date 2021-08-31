@@ -11,8 +11,10 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import { toast } from "react-hot-toast";
 import Friends from "./pages/Friends";
-import {enableMapSet} from 'immer'
-enableMapSet()
+import { enableMapSet } from "immer";
+import Jobs from "./pages/jobs/index";
+import JobForm from "@/pages/jobs/form";
+enableMapSet();
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "https://api.remotebootcamp.dev/api";
@@ -75,21 +77,50 @@ class App extends Component {
             <Route path="/register" component={Register} />
             <Route
               path="/dashboard"
-              render={() =>
+              render={({ location }) =>
                 this.state.user ? (
                   <Dashboard user={this.state.user} />
                 ) : (
-                  <Redirect to="/login" />
+                  <Redirect
+                    to={{ pathname: "/login", state: { from: location } }}
+                  />
                 )
               }
             />
             <Route
               path="/friends"
-              render={() =>
+              render={({ location }) =>
                 this.state.user ? (
                   <Friends user={this.state.user} />
                 ) : (
-                  <Redirect to="/login" />
+                  <Redirect
+                    to={{ pathname: "/login", state: { from: location } }}
+                  />
+                )
+              }
+            />
+            <Route
+              path="/jobs"
+              exact
+              render={({ location }) =>
+                this.state.user ? (
+                  <Jobs user={this.state.user} />
+                ) : (
+                  <Redirect
+                    to={{ pathname: "/login", state: { from: location } }}
+                  />
+                )
+              }
+            />
+            <Route
+              path="/jobs/form"
+              render={({ location }) =>
+                this.state.user ? (
+                  <JobForm user={this.state.user} />
+                ) : (
+                  <Redirect
+                    to={{ pathname: "/login", state: { from: location } }}
+                  />
                 )
               }
             />
