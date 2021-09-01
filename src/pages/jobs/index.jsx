@@ -1,20 +1,19 @@
-import React from "react";
-
-import axios from "axios";
-import { Component, Fragment } from "react";
-import { Transition, Dialog, Listbox } from "@headlessui/react";
-
-import toast from "react-hot-toast";
-import { produce } from "immer";
-
 import ConfirmationModal from "@/components/ConfirmationModal";
-import { withRouter } from "react-router-dom";
+import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import axios from "axios";
+import { produce } from "immer";
+import debounce from "lodash.debounce";
+import React, { Component, Fragment } from "react";
+import toast from "react-hot-toast";
+import { withRouter } from "react-router-dom";
 
 class Jobs extends Component {
   state = {
     pages: new Map(),
+    searchPages: new Map(),
     data: {
+      type: "page",
       pagedItems: [],
       pageIndex: -1,
       totalPages: 1,
@@ -23,6 +22,7 @@ class Jobs extends Component {
     },
     isModelOpen: false,
     selectedJob: null,
+    searchTerm: "",
   };
   fetchPage = (page) => {
     const currentPageData = this.state.pages.get(page);
@@ -42,6 +42,7 @@ class Jobs extends Component {
             this.setState(() =>
               produce(this.state, (draft) => {
                 draft.data = JSON.parse(JSON.stringify(res.data.item));
+                draft.data.type = "page";
                 draft.pages.set(
                   res.data.item.pageIndex,
                   JSON.parse(JSON.stringify(res.data.item))
@@ -62,16 +63,30 @@ class Jobs extends Component {
   };
   fetchNextFriends = () => {
     if (this.state.data.hasNextPage) {
-      this.fetchPage(this.state.data.pageIndex + 1);
+      if (this.state.data.type === "page")
+        this.fetchPage(this.state.data.pageIndex + 1);
+      else
+        this.fetchSearchPage(
+          this.state.data.pageIndex + 1,
+          this.state.searchTerm
+        );
     }
   };
   fetchPreviousFriends = () => {
     if (this.state.data.hasPreviousPage) {
-      this.fetchPage(this.state.data.pageIndex - 1);
+      if (this.state.data.type === "page")
+        this.fetchPage(this.state.data.pageIndex - 1);
+      else
+        this.fetchSearchPage(
+          this.state.data.pageIndex - 1,
+          this.state.searchTerm
+        );
     }
   };
   componentDidMount() {
-    this.fetchNextFriends();
+    if (!this.state.pages.get(0)) {
+      this.fetchNextFriends();
+    }
   }
 
   createJob = async () => {
@@ -101,6 +116,66 @@ class Jobs extends Component {
   closeModal = () => {
     this.setState((prev) => ({ ...prev, isModelOpen: false, errors: [] }));
   };
+
+  fetchSearchPage = async (page = 0, value) => {
+    if (this.state.searchPages.get(page) && value === this.state.searchTerm) {
+      const currentPageData = this.state.pages.get(0);
+      this.setState((prev) =>
+        produce(prev, (draft) => {
+          draft.data = currentPageData;
+        })
+      );
+    } else {
+      axios
+        .get(`/jobs/search?pageIndex=${page}&pageSize=10&searchTerm=${value}`)
+        .then((res) => {
+          if (res.data?.item) {
+            this.setState((prev) =>
+              produce(prev, (draft) => {
+                draft.data = JSON.parse(JSON.stringify(res.data.item));
+                draft.data.type = "search";
+
+                draft.searchPages.set(
+                  res.data.item.pageIndex,
+                  JSON.parse(JSON.stringify(res.data.item))
+                );
+              })
+            );
+          }
+        })
+        .catch((e) => {
+          if (e.response.status == 404 && value !== "") {
+            this.setState((prev) =>
+              produce(prev, (draft) => {
+                draft.data = {
+                  type: "search",
+                  pagedItems: [],
+                  pageIndex: 0,
+                  totalPages: 1,
+                  hasNextPage: false,
+                  hasPreviousPage: false,
+                };
+              })
+            );
+          } else {
+            const currentPageData = this.state.pages.get(0);
+            this.setState((prev) =>
+              produce(prev, (draft) => {
+                draft.data = currentPageData;
+              })
+            );
+          }
+        });
+    }
+  };
+  onSearch = debounce((e) => {
+    this.fetchSearchPage(0, e.target.value);
+    this.setState((prev) =>
+      produce(prev, (draft) => {
+        draft.searchTerm = e.target.value;
+      })
+    );
+  }, 1000);
   render() {
     return (
       <>
@@ -116,7 +191,12 @@ class Jobs extends Component {
           </div>
         </section>
         <section className="container mt-10">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
+          <input
+            type="search"
+            className="w-full rounded"
+            onChange={this.onSearch}
+          />
+          <div className="grid grid-cols-1 gap-6 mt-5 md:grid-cols-3 lg:grid-cols-4">
             {this.state.data.pagedItems.map((item) => (
               <div
                 className="p-6 transition transform rounded shadow cursor-pointer hover:scale-105"

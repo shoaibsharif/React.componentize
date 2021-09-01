@@ -10,6 +10,7 @@
     "i": "^0.3.6",
     "immer": "^9.0.5",
     "isomorphic-ws": "^4.0.1",
+    "lodash.debounce": "^4.0.8",
     "npm": "^7.21.1",
     "rc-pagination": "^3.1.7",
     "react": "^17.0.2",
