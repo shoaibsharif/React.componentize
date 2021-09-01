@@ -9,11 +9,11 @@ import { produce } from "immer";
 
 import ConfirmationModal from "@/components/ConfirmationModal";
 import { withRouter } from "react-router-dom";
+import { XIcon } from "@heroicons/react/outline";
 
 class Jobs extends Component {
   state = {
     pages: new Map(),
-
     data: {
       pagedItems: [],
       pageIndex: -1,
@@ -22,6 +22,7 @@ class Jobs extends Component {
       hasPreviousPage: false,
     },
     isModelOpen: false,
+    selectedJob: null,
   };
   fetchPage = (page) => {
     const currentPageData = this.state.pages.get(page);
@@ -94,9 +95,15 @@ class Jobs extends Component {
       console.log(error);
     }
   };
+  openModal = () => {
+    this.setState((prev) => ({ ...prev, isModelOpen: true }));
+  };
+  closeModal = () => {
+    this.setState((prev) => ({ ...prev, isModelOpen: false, errors: [] }));
+  };
   render() {
     return (
-      <main>
+      <>
         <section className="container">
           <div className="mt-5 ml-auto">
             <button
@@ -112,8 +119,16 @@ class Jobs extends Component {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
             {this.state.data.pagedItems.map((item) => (
               <div
-                className="p-6 transition transform rounded shadow hover:scale-105"
+                className="p-6 transition transform rounded shadow cursor-pointer hover:scale-105"
                 key={item.id}
+                onClick={() => {
+                  this.setState((prev) =>
+                    produce(prev, (draft) => {
+                      draft.isModelOpen = true;
+                      draft.selectedJob = item;
+                    })
+                  );
+                }}
               >
                 <div className="flex flex-col items-center justify-center gap-6 text-center">
                   <h2 className="text-xl font-bold">{item.title}</h2>
@@ -135,7 +150,11 @@ class Jobs extends Component {
                   </ConfirmationModal>
                   <button
                     className="primary-button"
-                    onClick={() => this.editFriendModal(item)}
+                    onClick={() =>
+                      this.props.history.push("/jobs/form?jobId=" + item.id, {
+                        job: item,
+                      })
+                    }
                   >
                     Edit
                   </button>
@@ -161,7 +180,61 @@ class Jobs extends Component {
             </button>
           </div>
         </section>
-      </main>
+        <Transition appear show={this.state.isModelOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="fixed inset-0 z-10 overflow-y-auto"
+            onClose={this.closeModal}
+          >
+            <div className="min-h-screen px-4 text-center bg-black bg-opacity-40">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0" />
+              </Transition.Child>
+
+              {/* This element is to trick the browser into centering the modal contents. */}
+              <span
+                className="inline-block h-screen align-middle"
+                aria-hidden="true"
+              >
+                &#8203;
+              </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className="relative inline-block w-full max-w-4xl p-6 my-8 overflow-x-auto text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <button
+                    onClick={this.closeModal}
+                    className="absolute rounded appearance-none right-3 top-3 focus:outline-none focus:ring focus:ring-blue-700"
+                  >
+                    <XIcon className="w-5 h-5" />
+                  </button>
+                  <div className="mt-2">
+                    {this.state.selectedJob && (
+                      <pre>
+                        {JSON.stringify(this.state.selectedJob, undefined, 2)}
+                      </pre>
+                    )}
+                  </div>
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
+      </>
     );
   }
 }

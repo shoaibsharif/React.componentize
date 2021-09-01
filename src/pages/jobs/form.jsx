@@ -6,6 +6,7 @@ import axios from "axios";
 import { Listbox } from "@headlessui/react";
 import { produce } from "immer";
 import CreatableSelect from "react-select/creatable";
+import toast from "react-hot-toast";
 
 const jobStatus = ["NotSet", "Active", "Deleted", "Flagged"];
 
@@ -34,11 +35,35 @@ class JobForm extends Component {
     );
   };
   componentDidMount() {
+    const query = new URLSearchParams(this.props.location?.search);
+    if (query.has("jobId")) {
+      axios.get("/jobs/" + query.get("jobId")).then((res) => {
+        this.setState((prev) =>
+          produce(prev, (draft) => {
+            draft.jobForm = {
+              id: res.data.item.id,
+              title: res.data.item.title,
+              description: res.data.item.description,
+              summary: res.data.item.summary,
+              pay: res.data.item.pay,
+              slug: res.data.item.slug,
+              statusId: res.data.item.statusId,
+              techCompanyId: res.data.item.techCompany,
+              skills: res.data.item.skills.map((skill) => ({
+                value: skill.id,
+                label: skill.name,
+              })),
+            };
+          })
+        );
+      });
+    }
     axios.get("/techcompanies?pageIndex=0&pageSize=10").then((res) => {
       this.setState((prev) =>
         produce(prev, (draft) => {
           draft.techCompanies = res.data.item;
-          draft.jobForm.techCompanyId = res.data.item.pagedItems[0];
+          if (!query.has("jobId"))
+            draft.jobForm.techCompanyId = res.data.item.pagedItems[0];
         })
       );
     });
@@ -53,20 +78,15 @@ class JobForm extends Component {
       )
     );
   }
-  createJob = async (e) => {
-    e.preventDefault();
+  createJob = async () => {
     try {
       const { data } = await axios.post("/jobs", {
         ...this.state.jobForm,
         techCompanyId: this.state.jobForm.techCompanyId?.id,
         skills: this.state.jobForm.skills.map((skillItem) => skillItem.label),
       });
-      if (data.item)
-        this.props.location.state = {
-          id: data.item,
-          ...this.state.jobForm,
-        };
-      this.props.history.push("/jobs");
+      if (data.item) this.props.history.push("/jobs");
+      toast.success("Job created successfully");
     } catch (error) {
       this.setState({ ...this.state, errors: error.response?.data.errors });
     }
@@ -99,6 +119,25 @@ class JobForm extends Component {
       );
     }
   };
+  updateJob = async () => {
+    try {
+      await axios.put("/jobs/" + this.state.jobForm.id, {
+        ...this.state.jobForm,
+        techCompanyId: this.state.jobForm.techCompanyId?.id,
+        skills: this.state.jobForm.skills.map((skillItem) => skillItem.label),
+      });
+      this.props.history.push("/jobs");
+      toast.success("Job updated");
+    } catch (error) {
+      this.setState({ ...this.state, errors: error.response?.data.errors });
+    }
+  };
+  submitForm = (e) => {
+    e.preventDefault();
+    const searchParams = new URLSearchParams(this.props.location?.search);
+    if (searchParams.has("jobId")) this.updateJob();
+    else this.createJob();
+  };
   render() {
     return (
       <div className="px-4 text-center ">
@@ -110,7 +149,7 @@ class JobForm extends Component {
           </h3>
           <div className="mt-2">
             <ApplicationErrors errors={this.state.errors} />
-            <form className="mt-5 space-y-4" onSubmit={this.createJob}>
+            <form className="mt-5 space-y-4" onSubmit={this.submitForm}>
               <div className="flex flex-col space-y-2">
                 <label htmlFor="name">Title</label>
                 <input

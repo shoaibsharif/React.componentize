@@ -212,7 +212,7 @@ class Friends extends Component {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
             {this.state.data.pagedItems.map((item) => (
               <div
-                className="p-6 transition transform rounded shadow hover:scale-105"
+                className="p-6 transition transform rounded shadow-xl hover:scale-105"
                 key={item.id}
               >
                 <div className="flex flex-col items-center justify-center gap-6 text-center">
