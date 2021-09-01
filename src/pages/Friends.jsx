@@ -406,7 +406,7 @@ class Friends extends Component {
                                       active
                                         ? "text-indigo-900 bg-indigo-100"
                                         : null
-                                    } cursor-default select-none relative py-2 px-4 relative`
+                                    } cursor-default select-none relative py-2 px-4 `
                                   }
                                   value={stat}
                                 >
