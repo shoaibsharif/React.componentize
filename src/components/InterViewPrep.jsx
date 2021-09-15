@@ -79,7 +79,7 @@ const InterViewPrep = () => {
   return (
     <section className="overflow-hidden rounded-lg">
       <header className="flex flex-col items-center justify-between px-6 py-10 text-white bg-indigo-600 md:flex-row">
-        <h2 className="text-xl font-bold">React Interview Prep</h2>
+        <h2 className="text-xl font-bold">Testing Tab</h2>
         <h2>03 Septempber, 2021</h2>
       </header>
       <main>
