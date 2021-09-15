@@ -14,6 +14,8 @@ import Friends from "./pages/Friends";
 import { enableMapSet } from "immer";
 import Jobs from "./pages/jobs/index";
 import JobForm from "@/pages/jobs/form";
+import TechCompany from "@/pages/TechCompany";
+import OverlayLoading from "./components/LoadingOverlay";
 enableMapSet();
 
 axios.defaults.withCredentials = true;
@@ -22,18 +24,22 @@ axios.defaults.baseURL = "https://api.remotebootcamp.dev/api";
 class App extends Component {
   state = {
     user: null,
+    userLoading: true,
   };
   componentDidMount() {
     this.getCurrentUser();
   }
   getCurrentUser = () => {
+    this.setState((prev) => ({ ...prev, userLoading: true }));
     axios
       .get("/users/current")
       .then((res) => {
         this.setState(() => ({ ...this.state, user: res.data.item }));
+        this.setState((prev) => ({ ...prev, userLoading: false }));
       })
       .catch((e) => {
         this.setState((prevState) => ({ ...prevState, user: null }));
+        this.setState((prev) => ({ ...prev, userLoading: false }));
       });
   };
   login = async ({ email, password }) => {
@@ -57,6 +63,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
+        <OverlayLoading open={this.state.userLoading} />
         <div className="flex flex-col min-h-screen">
           <SiteNav user={this.state.user} logout={this.logout} />
           <Switch>
@@ -92,6 +99,18 @@ class App extends Component {
               render={({ location }) =>
                 this.state.user ? (
                   <Friends user={this.state.user} />
+                ) : (
+                  <Redirect
+                    to={{ pathname: "/login", state: { from: location } }}
+                  />
+                )
+              }
+            />
+            <Route
+              path="/techcompanies"
+              render={({ location }) =>
+                this.state.user ? (
+                  <TechCompany user={this.state.user} />
                 ) : (
                   <Redirect
                     to={{ pathname: "/login", state: { from: location } }}

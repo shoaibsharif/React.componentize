@@ -1,12 +1,14 @@
 import React from "react";
 import Content from "../components/Content";
-import Jumbo from "../components/Jumbo";
+import InterViewPrep from "./InterViewPrep";
 
 const Home = () => {
   return (
     <main role="main">
-      <Jumbo />
       <Content />
+      <div className="container">
+        <InterViewPrep />
+      </div>
     </main>
   );
 };

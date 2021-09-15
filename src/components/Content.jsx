@@ -1,46 +1,28 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Content = () => {
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-4">
-          <h2>Heading</h2>
-          <p>
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-            fermentum massa justo sit amet risus. Etiam porta sem malesuada
-            magna mollis euismod. Donec sed odio dui.
-          </p>
-          <p>
-            <button className="btn btn-secondary">View details &raquo;</button>
-          </p>
-        </div>
-        <div className="col-md-4">
-          <h2>Heading</h2>
-          <p>
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-            fermentum massa justo sit amet risus. Etiam porta sem malesuada
-            magna mollis euismod. Donec sed odio dui.
-          </p>
-          <p>
-            <button className="btn btn-secondary">View details &raquo;</button>
-          </p>
-        </div>
-        <div className="col-md-4">
-          <h2>Heading</h2>
-          <p>
-            Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
-            egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-            nibh, ut fermentum massa justo sit amet risus.
-          </p>
-          <p>
-            <button className="btn btn-secondary">View details &raquo;</button>
-          </p>
-        </div>
-      </div>
+    <div className="max-w-5xl mx-auto mt-5 prose">
+      <h1>Hi</h1>
+      <p>
+        Welcome to My simple project. In this project, I have been learning how
+        to fetch and manage data from an API.{" "}
+      </p>
+      <p>To navigate this project to I have done so far or WIP:</p>
+      <ul>
+        {/* <li>
+          <NavLink to="/login">Login </NavLink> - to see your dashboard 
+        </li> */}
+        <li>
+          <NavLink to="/friends">Friends</NavLink> - This is where you can
+          create contacts of your friends (
+          <span className="text-red-500"> Needs to be authenticated </span>)
+        </li>
+        <li>
+          <NavLink to="/jobs">Jobs</NavLink> - Create or Manage Jobs
+        </li>
+      </ul>
     </div>
   );
 };

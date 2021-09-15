@@ -30,7 +30,7 @@ const Header = (props) => {
                 to="/friends"
                 className="px-2 text-white nav-link link-button"
               >
-                People
+                Friends
               </Link>
             </li>
             <li>
@@ -39,9 +39,12 @@ const Header = (props) => {
               </Link>
             </li>
             <li>
-              <button href="#" className="px-2 text-white nav-link link-button">
+              <Link
+                to="/techcompanies"
+                className="px-2 text-white nav-link link-button"
+              >
                 Tech Co.
-              </button>
+              </Link>
             </li>
             <li>
               <Link to="/jobs" className="px-2 text-white nav-link link-button">

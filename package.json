@@ -6,6 +6,7 @@
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
     "@tailwindcss/forms": "^0.3.3",
+    "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.21.1",
     "i": "^0.3.6",
     "immer": "^9.0.5",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "autoprefixer": "^10.3.3",
     "postcss": "^8.3.6",
+    "sass": "^1.40.1",
     "tailwindcss": "^2.2.7",
     "vite": "^2.5.1",
     "vite-react-jsx": "^1.1.2"

@@ -1,12 +1,10 @@
-import React from "react";
+import { Dialog, Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
 import axios from "axios";
-import { Component, Fragment } from "react";
-import { Transition, Dialog, Listbox } from "@headlessui/react";
-import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
-import toast from "react-hot-toast";
 import { produce } from "immer";
+import React, { Component, Fragment } from "react";
+import toast from "react-hot-toast";
 import ApplicationErrors from "../components/ApplicationErrors";
-import ConfirmationModal from "../components/ConfirmationModal";
 import { status } from "../lib/constants";
 
 class Friends extends Component {
@@ -21,14 +19,14 @@ class Friends extends Component {
     },
     isModelOpen: false,
     errors: [],
-    friendForm: {
-      title: "",
-      bio: "",
+    formState: {
+      name: "",
+      profile: "",
       summary: "",
       headline: "",
+      contactInformation: "",
       slug: "",
       statusId: status[1],
-      primaryImage: "",
     },
   };
   fetchPage = (page) => {
@@ -43,7 +41,7 @@ class Friends extends Component {
     } else {
       // get the page data and store them in current page
       axios
-        .get(`/friends?pageIndex=${page}&pageSize=6`)
+        .get(`/techcompanies?pageIndex=${page}&pageSize=6`)
         .then((res) => {
           if (res.data?.item) {
             this.setState(() =>
@@ -84,14 +82,14 @@ class Friends extends Component {
   onChangeInput = (e) => {
     this.setState(
       produce(this.state, (draft) => {
-        draft.friendForm[e.target.name] = e.target.value;
+        draft.formState[e.target.name] = e.target.value;
       })
     );
   };
   openNewFriendModal = () => {
-    this.setState(
-      produce(this.state, (draft) => {
-        draft.friendForm = {
+    this.setState((prev) =>
+      produce(prev, (draft) => {
+        draft.formState = {
           title: "",
           bio: "",
           summary: "",
@@ -104,19 +102,19 @@ class Friends extends Component {
     );
     this.openModal();
   };
-  createFriend = async (e) => {
+  createTechCompany = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post("/friends", {
-        ...this.state.friendForm,
+        ...this.state.formState,
       });
       if (data.item)
-        this.setState(
-          produce(this.state, (draft) => {
+        this.setState((prev) =>
+          produce(prev, (draft) => {
             const firstPage = draft.pages.get(1);
             firstPage.pagedItems.unshift({
               id: data.item,
-              ...this.state.friendForm,
+              ...this.state.formState,
             });
           })
         );
@@ -128,9 +126,8 @@ class Friends extends Component {
   editFriendModal = (item) => {
     this.setState(
       produce(this.state, (draft) => {
-        draft.friendForm = {
+        draft.formState = {
           ...item,
-          primaryImage: item.primaryImage.imageUrl,
         };
       })
     );
@@ -139,7 +136,7 @@ class Friends extends Component {
   updateFriend = async (e) => {
     e.preventDefault();
     const { entityTypeId, dateCreated, dateModified, ...rest } =
-      this.state.friendForm;
+      this.state.formState;
     try {
       await axios.put(`/friends/${rest.id}`, { ...rest });
       this.closeModal();
@@ -156,10 +153,10 @@ class Friends extends Component {
           // if index has been found update the data
           if (index !== -1) {
             currentPageData.pagedItems[index] = {
-              ...this.state.friendForm,
+              ...this.state.formState,
               primaryImage: {
                 ...currentPageData.pagedItems[index].primaryImage,
-                imageUrl: this.state.friendForm.primaryImage,
+                imageUrl: this.state.formState.primaryImage,
               },
             };
             draft.data = currentPageData;
@@ -172,26 +169,10 @@ class Friends extends Component {
       this.setState({ ...this.state, errors: error.response?.data.errors });
     }
   };
-  deleteFried = async (id) => {
-    try {
-      await axios.delete(`/friends/${id}`);
-      this.setState(
-        produce(this.state, (draft) => {
-          // find the page data from Map pages state
-          const currentPageData = draft.pages.get(draft.data.pageIndex);
-          const index = currentPageData.findIndex((item) => item.id === id);
-          if (index !== -1) {
-            currentPageData.splice(index, 1);
-          }
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   submitForm = (e) => {
-    if (this.state.friendForm?.id) this.updateFriend(e);
-    else this.createFriend(e);
+    if (this.state.formState?.id) this.updateFriend(e);
+    else this.createTechCompany(e);
   };
   render() {
     return (
@@ -203,40 +184,22 @@ class Friends extends Component {
               onClick={this.openNewFriendModal}
               className="px-4 py-2 text-sm font-medium text-white transition bg-black bg-opacity-50 rounded-md hover:bg-opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             >
-              New friend
+              Create a Tech Company
             </button>
           </div>
         </div>
         <section className="container mt-10">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {this.state.data.pagedItems.map((item) => (
-              <div
-                className="p-6 transition transform rounded hover:scale-105"
+              <article
+                className="p-6 transition border border-gray-700 rounded-xl card-shadow"
                 key={item.id}
               >
                 <div className="flex flex-col items-center justify-center gap-6 text-center">
-                  <img
-                    src={item.primaryImage.imageUrl}
-                    alt={item.title}
-                    className="object-cover w-10 h-10 rounded-full"
-                  />
-                  <h2 className="text-xl font-bold">{item.title}</h2>
+                  <h2 className="text-xl font-bold capitalize">{item.name}</h2>
+                  <p>{item.summary}</p>
                 </div>
                 <div className="flex justify-end mt-10 space-x-3">
-                  <ConfirmationModal
-                    onConfirm={() => this.deleteFried(item.id)}
-                    title="Deleting friend"
-                    description="Are you sure you want to delete this friend?"
-                  >
-                    {(openModal) => (
-                      <button
-                        className="capitalize red-button"
-                        onClick={openModal}
-                      >
-                        delete
-                      </button>
-                    )}
-                  </ConfirmationModal>
                   <button
                     className="primary-button"
                     onClick={() => this.editFriendModal(item)}
@@ -244,7 +207,7 @@ class Friends extends Component {
                     Edit
                   </button>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
           <div className="flex justify-end mt-10 space-x-3">
@@ -300,14 +263,14 @@ class Friends extends Component {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="inline-block w-full max-w-md p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    {!this.state.friendForm.id
+                    {!this.state.formState.id
                       ? "Create a new friend"
-                      : `Edit ${this.state.friendForm.title}`}
+                      : `Edit ${this.state.formState.title}`}
                   </Dialog.Title>
                   <div className="mt-2">
                     <ApplicationErrors errors={this.state.errors} />
@@ -319,7 +282,7 @@ class Friends extends Component {
                           name="title"
                           id="name"
                           placeholder="Title"
-                          value={this.state.friendForm.title}
+                          value={this.state.formState.title}
                           onChange={this.onChangeInput}
                           className="px-3 py-2 border border-gray-300 rounded appearance-none focus:ring focus:outline-none"
                         />
@@ -330,7 +293,7 @@ class Friends extends Component {
                           type="text"
                           name="bio"
                           id="bio"
-                          value={this.state.friendForm.bio}
+                          value={this.state.formState.bio}
                           onChange={this.onChangeInput}
                           placeholder="Please type name"
                           className="px-3 py-2 border border-gray-300 rounded appearance-none focus:ring focus:outline-none"
@@ -342,7 +305,7 @@ class Friends extends Component {
                           type="text"
                           name="summary"
                           id="summary"
-                          value={this.state.friendForm.summary}
+                          value={this.state.formState.summary}
                           onChange={this.onChangeInput}
                           placeholder="Summary"
                           className="px-3 py-2 border border-gray-300 rounded appearance-none focus:ring focus:outline-none"
@@ -354,7 +317,7 @@ class Friends extends Component {
                           type="text"
                           name="headline"
                           id="headline"
-                          value={this.state.friendForm.headline}
+                          value={this.state.formState.headline}
                           onChange={this.onChangeInput}
                           placeholder="Headline"
                           className="px-3 py-2 border border-gray-300 rounded appearance-none focus:ring focus:outline-none"
@@ -366,7 +329,7 @@ class Friends extends Component {
                         <input
                           name="slug"
                           id="slug"
-                          value={this.state.friendForm.slug}
+                          value={this.state.formState.slug}
                           onChange={this.onChangeInput}
                           placeholder="Slug"
                           className="px-3 py-2 border border-gray-300 rounded appearance-none focus:ring focus:outline-none"
@@ -375,11 +338,11 @@ class Friends extends Component {
                       <div className="flex flex-col space-y-2">
                         <label htmlFor="status">Status</label>
                         <Listbox
-                          value={this.state.friendForm.statusId}
+                          value={this.state.formState.statusId}
                           onChange={(value) =>
                             this.setState((prev) =>
                               produce(prev, (draft) => {
-                                draft.friendForm.statusId = value;
+                                draft.formState.statusId = value;
                               })
                             )
                           }
@@ -387,7 +350,7 @@ class Friends extends Component {
                           <div className="relative">
                             <Listbox.Button className="relative w-full px-3 py-2 text-left border border-gray-300 rounded appearance-none focus:ring focus:outline-none">
                               <span className="block truncate">
-                                {this.state.friendForm.statusId}
+                                {this.state.formState.statusId}
                               </span>
                               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                 <SelectorIcon
@@ -423,17 +386,17 @@ class Friends extends Component {
                           </div>
                         </Listbox>
                       </div>
-                      <div className="flex flex-col space-y-2">
+                      {/* <div className="flex flex-col space-y-2">
                         <label htmlFor="primaryImage">Primary Image</label>
                         <input
                           name="primaryImage"
                           id="primaryImage"
                           placeholder="Please enter an image url"
                           className="px-3 py-2 border border-gray-300 rounded appearance-none focus:ring focus:outline-none"
-                          value={this.state.friendForm.primaryImage}
+                          value={this.state.formState.primaryImage}
                           onChange={this.onChangeInput}
                         />
-                      </div>
+                      </div> */}
                       <div className="mt-4">
                         <button className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500">
                           Save

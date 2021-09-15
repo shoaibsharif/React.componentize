@@ -24,3 +24,23 @@ code {
 .red-button {
   @apply inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 transition bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500;
 }
+
+.card-shadow {
+  box-shadow: 6px 7px theme("colors.gray.900");
+  transition: all ease-in 0.3s;
+  &:hover {
+    @apply ring-4 ring-indigo-500/50;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: theme("colors.indigo.200");
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
