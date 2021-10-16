@@ -196,10 +196,10 @@ class Jobs extends Component {
             className="w-full rounded"
             onChange={this.onSearch}
           />
-          <div className="grid grid-cols-1 gap-6 mt-5 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 mt-5 md:grid-cols-3">
             {this.state.data.pagedItems.map((item) => (
               <div
-                className="p-6 transition transform rounded shadow cursor-pointer hover:scale-105"
+                className="p-6 transition border border-gray-300 rounded cursor-pointer card-shadow"
                 key={item.id}
                 onClick={() => {
                   this.setState((prev) =>

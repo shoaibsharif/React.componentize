@@ -14,8 +14,12 @@ import Friends from "./pages/Friends";
 import { enableMapSet } from "immer";
 import Jobs from "./pages/jobs/index";
 import JobForm from "@/pages/jobs/form";
-import TechCompany from "@/pages/TechCompany";
+import TechCompany from "@/pages/techcompany/index";
+import TechCompanyForm from "@/pages/techcompany/form";
 import OverlayLoading from "./components/LoadingOverlay";
+import UserService from "./lib/UserService";
+import Events from "./pages/events";
+import CreateEvent from "./pages/events/create";
 enableMapSet();
 
 axios.defaults.withCredentials = true;
@@ -31,33 +35,32 @@ class App extends Component {
   }
   getCurrentUser = () => {
     this.setState((prev) => ({ ...prev, userLoading: true }));
-    axios
-      .get("/users/current")
+    UserService.getUser()
       .then((res) => {
-        this.setState(() => ({ ...this.state, user: res.data.item }));
-        this.setState((prev) => ({ ...prev, userLoading: false }));
+        this.setState((prev) => ({
+          ...prev,
+          userLoading: false,
+          user: res.data.item,
+        }));
       })
-      .catch((e) => {
-        this.setState((prevState) => ({ ...prevState, user: null }));
-        this.setState((prev) => ({ ...prev, userLoading: false }));
+      .catch(() => {
+        this.setState((prevState) => ({
+          ...prevState,
+          user: null,
+          userLoading: false,
+        }));
       });
   };
-  login = async ({ email, password }) => {
-    await axios.post("/users/login", {
-      email,
-      password,
-      tenantId: "U023C6VN34L",
+  login = ({ email, password }) => {
+    UserService.login({ email, password }).then(() => {
+      toast("Successfully logged in 👍");
+      this.getCurrentUser();
     });
-    toast("Successfully logged in 👍");
-    this.getCurrentUser();
   };
-  logout = async () => {
-    try {
-      await axios.get("/users/logout");
+  logout = () => {
+    UserService.logout().then(() => {
       toast("Successfully logged out");
-    } catch (error) {
-      console.log(error);
-    }
+    });
     this.getCurrentUser();
   };
   render() {
@@ -81,7 +84,16 @@ class App extends Component {
               )}
             />
             {/* Need to check whether the user is logged in or not. If logged in, then navigate to dashboard */}
-            <Route path="/register" component={Register} />
+            <Route
+              path="/register"
+              render={() =>
+                !this.state.user ? (
+                  <Register />
+                ) : (
+                  <Redirect to={{ pathname: "/dashboard" }} />
+                )
+              }
+            />
             <Route
               path="/dashboard"
               render={({ location }) =>
@@ -106,11 +118,52 @@ class App extends Component {
                 )
               }
             />
+
             <Route
               path="/techcompanies"
+              exact
               render={({ location }) =>
                 this.state.user ? (
                   <TechCompany user={this.state.user} />
+                ) : (
+                  <Redirect
+                    to={{ pathname: "/login", state: { from: location } }}
+                  />
+                )
+              }
+            />
+            <Route
+              path="/techcompanies/:id/edit"
+              render={({ location }) =>
+                this.state.user ? (
+                  <TechCompanyForm user={this.state.user} />
+                ) : (
+                  <Redirect
+                    to={{ pathname: "/login", state: { from: location } }}
+                  />
+                )
+              }
+            />
+
+            <Route
+              path="/events"
+              exact
+              render={({ location }) =>
+                this.state.user ? (
+                  <Events user={this.state.user} />
+                ) : (
+                  <Redirect
+                    to={{ pathname: "/login", state: { from: location } }}
+                  />
+                )
+              }
+            />
+            <Route
+              path="/events/create"
+              exact
+              render={({ location }) =>
+                this.state.user ? (
+                  <CreateEvent user={this.state.user} />
                 ) : (
                   <Redirect
                     to={{ pathname: "/login", state: { from: location } }}

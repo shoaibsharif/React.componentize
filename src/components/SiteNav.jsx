@@ -52,9 +52,12 @@ const Header = (props) => {
               </Link>
             </li>
             <li>
-              <button href="#" className="px-2 text-white nav-link link-button">
+              <Link
+                to="/events"
+                className="px-2 text-white nav-link link-button"
+              >
                 Events
-              </button>
+              </Link>
             </li>
           </ul>
 

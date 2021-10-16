@@ -1,6 +1,6 @@
 import React from "react";
 import Content from "../components/Content";
-import InterViewPrep from "./InterViewPrep";
+import InterViewPrep from "../components/InterViewPrep";
 
 const Home = () => {
   return (

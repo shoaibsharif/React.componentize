@@ -107,9 +107,9 @@ const InterViewPrep = () => {
               ))}
             </Tab.List>
           </div>
-          <Tab.Panels className="flex-grow h-[600px] overflow-y-auto">
+          <Tab.Panels className="flex-grow md:h-[600px] md:overflow-y-auto">
             {interViewQA.map((qa, qaIdx) => (
-              <Tab.Panel className="min-h-full m-5" key={`qaPanel-${qaIdx}`}>
+              <Tab.Panel className="m-5 " key={`qaPanel-${qaIdx}`}>
                 {({ selected }) => (
                   <Transition
                     as={Fragment}

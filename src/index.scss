@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "filepond/dist/filepond.min.css";
+@import "react-nice-dates/build/style.css";
 
 body {
   margin: 0;
@@ -26,11 +28,10 @@ code {
 }
 
 .card-shadow {
-  box-shadow: 6px 7px theme("colors.gray.900");
+  box-shadow: 1px 2px 2px hsl(220deg 60% 50% / 0.333),
+    2px 4px 4px hsl(220deg 60% 50% / 0.333),
+    3px 6px 6px hsl(220deg 60% 50% / 0.333);
   transition: all ease-in 0.3s;
-  &:hover {
-    @apply ring-4 ring-indigo-500/50;
-  }
 }
 
 ::-webkit-scrollbar {
@@ -43,4 +44,66 @@ code {
 ::-webkit-scrollbar-track {
   background: transparent;
   border-radius: 4px;
+}
+
+.input {
+  -webkit-appearance: none;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #d3dde6;
+  color: #0e3254;
+  display: block;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: inherit;
+  height: 42px;
+  outline: none;
+  padding: 0 12px;
+  transition: border-color 0.2s;
+}
+
+.input.-focused,
+.input:focus {
+  border-color: #438cd2;
+}
+
+.input::placeholder {
+  color: #d3dde6;
+}
+
+.date-range {
+  display: flex;
+  justify-content: space-between;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+.nice-dates {
+  font-family: "IBM Plex Sans", sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  z-index: 9999999;
+}
+.date-range .input {
+  width: 100%;
+}
+
+.date-range_arrow {
+  flex-shrink: 0;
+  position: relative;
+  width: 36px;
+}
+
+.date-range_arrow:before {
+  border-right: 2px solid #d3dde6;
+  border-top: 2px solid #d3dde6;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  height: 18px;
+  left: 50%;
+  margin-left: -14px;
+  margin-top: -9px;
+  position: absolute;
+  top: 50%;
+  transform: rotate(45deg);
+  width: 18px;
 }

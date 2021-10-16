@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import ApplicationErrors from "@/components/ApplicationErrors";
-import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
-import axios from "axios";
 import { Listbox } from "@headlessui/react";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
+import axios from "axios";
 import { produce } from "immer";
-import CreatableSelect from "react-select/creatable";
+import React, { Component } from "react";
 import toast from "react-hot-toast";
+import { withRouter } from "react-router-dom";
+import CreatableSelect from "react-select/creatable";
 
 const jobStatus = ["NotSet", "Active", "Deleted", "Flagged"];
 
@@ -98,13 +98,20 @@ class JobForm extends Component {
       })
     );
   };
+
   handleCreateSkill = async (inputValue) => {
     this.setState((prev) =>
       produce(prev, (draft) => {
         draft.isSelectSkillLoading = true;
       })
     );
+    // create a new skill to database
     const newSkill = await axios.post("/skills", { skills: [inputValue] });
+
+    // if we get the skill from database,
+    // then we will modify the data before push to the state
+    // for react-select since react-select only
+    // understands value and label
     if (newSkill?.data) {
       const newSkillModified = {
         value: newSkill.data.items[0].id,
@@ -119,6 +126,9 @@ class JobForm extends Component {
       );
     }
   };
+  /**
+   * Handle if the form is for updating the job
+   */
   updateJob = async () => {
     try {
       await axios.put("/jobs/" + this.state.jobForm.id, {
@@ -132,6 +142,10 @@ class JobForm extends Component {
       this.setState({ ...this.state, errors: error.response?.data.errors });
     }
   };
+  /**
+   *
+   *Decides whether the form is form creating job or update the job
+   */
   submitForm = (e) => {
     e.preventDefault();
     const searchParams = new URLSearchParams(this.props.location?.search);

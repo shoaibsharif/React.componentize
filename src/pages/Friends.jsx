@@ -1,10 +1,9 @@
-import React from "react";
-import axios from "axios";
-import { Component, Fragment } from "react";
-import { Transition, Dialog, Listbox } from "@headlessui/react";
-import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
-import toast from "react-hot-toast";
+import FriendsService from "@/lib/FriendsService";
+import { Dialog, Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
 import { produce } from "immer";
+import React, { Component, Fragment } from "react";
+import toast from "react-hot-toast";
 import ApplicationErrors from "../components/ApplicationErrors";
 import ConfirmationModal from "../components/ConfirmationModal";
 import { status } from "../lib/constants";
@@ -42,8 +41,7 @@ class Friends extends Component {
       );
     } else {
       // get the page data and store them in current page
-      axios
-        .get(`/friends?pageIndex=${page}&pageSize=6`)
+      FriendsService.index(page)
         .then((res) => {
           if (res.data?.item) {
             this.setState(() =>
@@ -104,26 +102,26 @@ class Friends extends Component {
     );
     this.openModal();
   };
+  onCreateFriendSuccess = (res) => {
+    this.setState(
+      produce(this.state, (draft) => {
+        const firstPage = draft.pages.get(1);
+        firstPage.pagedItems.unshift({
+          id: res.data.item,
+          ...this.state.friendForm,
+        });
+      })
+    );
+    this.closeModal();
+  };
+  onFormError = (error) =>
+    this.setState({ ...this.state, errors: error.response?.data.errors });
   createFriend = async (e) => {
     e.preventDefault();
-    try {
-      const { data } = await axios.post("/friends", {
-        ...this.state.friendForm,
-      });
-      if (data.item)
-        this.setState(
-          produce(this.state, (draft) => {
-            const firstPage = draft.pages.get(1);
-            firstPage.pagedItems.unshift({
-              id: data.item,
-              ...this.state.friendForm,
-            });
-          })
-        );
-      this.closeModal();
-    } catch (error) {
-      this.setState({ ...this.state, errors: error.response?.data.errors });
-    }
+
+    FriendsService.create(this.state.friendForm)
+      .then(this.onCreateFriendSuccess)
+      .catch(this.onFormError);
   };
   editFriendModal = (item) => {
     this.setState(
@@ -136,59 +134,62 @@ class Friends extends Component {
     );
     this.openModal();
   };
+  onUpdateFriendSuccess = (rest) => {
+    this.closeModal();
+    this.setState((prev) =>
+      produce(prev, (draft) => {
+        // find the page data from Map pages state
+        const currentPageData = draft.pages.get(draft.data.pageIndex);
+
+        // find the index by matching the id
+        const index = currentPageData.pagedItems.findIndex(
+          (item) => item.id === rest.id
+        );
+
+        // if index has been found, update the data
+        if (index !== -1) {
+          currentPageData.pagedItems[index] = {
+            ...this.state.friendForm,
+            primaryImage: {
+              ...currentPageData.pagedItems[index].primaryImage,
+              imageUrl: this.state.friendForm.primaryImage,
+            },
+          };
+          draft.data = currentPageData;
+        }
+      })
+    );
+    toast.success("Friend Successfully updated");
+  };
   updateFriend = async (e) => {
     e.preventDefault();
     const { entityTypeId, dateCreated, dateModified, ...rest } =
       this.state.friendForm;
-    try {
-      await axios.put(`/friends/${rest.id}`, { ...rest });
-      this.closeModal();
-      this.setState(
-        produce(this.state, (draft) => {
-          // find the page data from Map pages state
-          const currentPageData = draft.pages.get(draft.data.pageIndex);
+    FriendsService.update(rest)
+      .then(() => this.onUpdateFriendSuccess(rest))
+      .catch(this.onFormError);
+  };
+  deleteFriendFromState = (id) => {
+    this.setState((prev) =>
+      produce(prev, (draft) => {
+        // find the page data from Map pages state
+        const currentPageData = draft.pages.get(draft.data.pageIndex);
+        const index = currentPageData.pagedItems?.findIndex(
+          (item) => item.id === id
+        );
 
-          // find the index by matching the id
-          const index = currentPageData.pagedItems.findIndex(
-            (item) => item.id === rest.id
-          );
+        if (Number.isInteger(index) && index !== -1) {
+          currentPageData.pagedItems.splice(index, 1);
 
-          // if index has been found update the data
-          if (index !== -1) {
-            currentPageData.pagedItems[index] = {
-              ...this.state.friendForm,
-              primaryImage: {
-                ...currentPageData.pagedItems[index].primaryImage,
-                imageUrl: this.state.friendForm.primaryImage,
-              },
-            };
-            draft.data = currentPageData;
-          }
-        })
-      );
-      toast.success("Friend Successfully updated");
-    } catch (error) {
-      console.log(error);
-      this.setState({ ...this.state, errors: error.response?.data.errors });
-    }
+          draft.data = currentPageData;
+        }
+      })
+    );
   };
   deleteFried = async (id) => {
-    try {
-      await axios.delete(`/friends/${id}`);
-      this.setState(
-        produce(this.state, (draft) => {
-          // find the page data from Map pages state
-          const currentPageData = draft.pages.get(draft.data.pageIndex);
-          const index = currentPageData.findIndex((item) => item.id === id);
-          if (index !== -1) {
-            currentPageData.splice(index, 1);
-          }
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    FriendsService.destroy(id).then(() => this.deleteFriendFromState(id));
   };
+
   submitForm = (e) => {
     if (this.state.friendForm?.id) this.updateFriend(e);
     else this.createFriend(e);
@@ -208,12 +209,9 @@ class Friends extends Component {
           </div>
         </div>
         <section className="container mt-10">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {this.state.data.pagedItems.map((item) => (
-              <div
-                className="p-6 transition transform rounded hover:scale-105"
-                key={item.id}
-              >
+              <div className="p-6 border rounded card-shadow" key={item.id}>
                 <div className="flex flex-col items-center justify-center gap-6 text-center">
                   <img
                     src={item.primaryImage.imageUrl}

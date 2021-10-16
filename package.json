@@ -8,6 +8,9 @@
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.21.1",
+    "date-fns": "^2.25.0",
+    "filepond": "^4.29.1",
+    "formik": "^2.2.9",
     "i": "^0.3.6",
     "immer": "^9.0.5",
     "isomorphic-ws": "^4.0.1",
@@ -16,9 +19,12 @@
     "rc-pagination": "^3.1.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-filepond": "^7.1.1",
     "react-hot-toast": "^2.1.0",
+    "react-nice-dates": "^3.1.0",
     "react-router-dom": "^5.2.0",
-    "react-select": "^4.3.1"
+    "react-select": "^4.3.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "dev": "vite",
